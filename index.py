@@ -1,8 +1,8 @@
 import discord
-import os
 from discord import app_commands
 import requests
 import json
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -28,24 +28,6 @@ class MyClient(discord.Client):
                     await channel.send(file=discord.File('the_grinch_intro.gif'))
         print('Active in {}\n Member Count : {}'.format(guild.name, guild.member_count))
 
-# @bot.event
-# async def on_message(message):
-#     if message.author == bot.user:
-#         return
-
-#     if message.content == 'ginch':
-#         channel = message.channel
-#         for i in range(5):
-#             await channel.send('Ginch')
-
-#     print(f'Message from {message.author}: {message.content}')
-#     await bot.process_commands(message)
-
-#     if message.content.startswith('?gif'):
-#         query = message.content.split('?gif ', 1)[1]
-#         gif_url = get_gif(query)
-#         await message.channel.send(gif_url)
-
 client = MyClient()
 
 @client.tree.command(name="gif", description="Get a gif", guild=discord.Object(id=main_guild))
@@ -55,8 +37,11 @@ async def slash_command(interaction: discord.Interaction, query: str):
     gif_url = data['data']['images']['original']['url']
     await interaction.response.send_message(gif_url)
 
-@client.tree.command(name="test", description="Test command", guild=discord.Object(id=main_guild))
-async def slash_command(interaction: discord.Interaction):    
-    await interaction.response.send_message("Test command executed in index.py")
+@client.tree.command(name="ginch", description="Summon the ginch", guild=discord.Object(id=main_guild))
+async def slash_command(interaction: discord.Interaction, query: str):
+    if interaction.content == 'ginch':
+        channel = interaction.channel
+        for i in range(5):
+            await channel.send('Ginch')
 
 client.run(discord_token)
