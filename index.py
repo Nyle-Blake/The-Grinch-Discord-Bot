@@ -1,9 +1,8 @@
-import discord
-from discord import app_commands
 import requests
 import json
-import os
 from dotenv import load_dotenv
+import discord
+from MyClient import MyClient
 
 load_dotenv()
 
@@ -13,30 +12,7 @@ async def get_gif(query, api_key):
     data = json.loads(response.text)
     gif_url = data['data']['images']['original']['url']
     return gif_url
-
-
-class MyClient(discord.Client):
-    def __init__(self):
-        super().__init__(intents=discord.Intents.default())
-        self.tree = app_commands.CommandTree(self)
-        self.discord_token = os.getenv('DISCORD_TOKEN')
-        self.giphy_token = os.getenv('GIPHY_TOKEN')
-        self.main_guild = os.getenv('MAIN_GUILD')
-    
-    async def on_ready(self):
-        await self.tree.sync(guild=discord.Object(id=self.main_guild))
-        print(f'Logged in as {self.user}')
-        await self.send_intro()
-
-    async def send_intro(self):
-        for guild in self.guilds:
-            for channel in guild.text_channels:
-                if str(channel) == "general":
-                    await channel.send('*** The Ginch Has Arrived ***')
-                    await channel.send(file=discord.File('the_grinch_intro.gif'))
-        print('Active in {}\n Member Count : {}'.format(guild.name, guild.member_count))
-
-
+ 
 client = MyClient()
 
 
@@ -57,6 +33,8 @@ async def slash_command(interaction: discord.Interaction, query: str):
                 await channel.send('*** I have been summoned ***')
         except:
             await interaction.response.send_message('*** Error summoning the ginch ***')
+    else:
+        await interaction.response.send_message('** The ginch has not been summoned **')
 
 @client.tree.command(name="kick", description="Kick a member of the server", guild=discord.Object(id=client.main_guild))
 async def slash_command(interaction: discord.Interaction, member: discord.Member, reason: str):
