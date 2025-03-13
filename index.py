@@ -24,17 +24,17 @@ async def slash_command(interaction: discord.Interaction, query: str):
     except:
         await interaction.response.send_message('No gif found')
 
-@client.tree.command(name="ginch", description="Summon the ginch", guild=discord.Object(id=client.main_guild))
+@client.tree.command(name="grinch", description="Summon the grinch", guild=discord.Object(id=client.main_guild))
 async def slash_command(interaction: discord.Interaction, query: str):
-    if query == 'ginch':
+    if query == 'grinch':
         channel = interaction.channel
         try:
             for i in range(5):
                 await channel.send('*** I have been summoned ***')
         except:
-            await interaction.response.send_message('*** Error summoning the ginch ***')
+            await interaction.response.send_message('*** Error summoning the grinch ***')
     else:
-        await interaction.response.send_message('** The ginch has not been summoned **')
+        await interaction.response.send_message('** The grinch has not been summoned **')
 
 @client.tree.command(name="kick", description="Kick a member of the server", guild=discord.Object(id=client.main_guild))
 async def slash_command(interaction: discord.Interaction, member: discord.Member, reason: str):

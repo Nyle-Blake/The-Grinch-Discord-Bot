@@ -19,6 +19,6 @@ class MyClient(discord.Client):
         for guild in self.guilds:
             for channel in guild.text_channels:
                 if str(channel) == "general":
-                    await channel.send('*** The Ginch Has Arrived ***')
+                    await channel.send('*** The grinch Has Arrived ***')
                     await channel.send(file=discord.File('the_grinch_intro.gif'))
         print('Active in {}\n Member Count : {}'.format(guild.name, guild.member_count))
